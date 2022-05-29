@@ -46,7 +46,7 @@
                     <ListBoxItem Name="Converter">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock FontSize="36" FontFamily="Segoe MDL2 Assets" Text="&#xE8EF;" />
-                            <TextBlock FontSize="24" Text="Exchange calculator" Margin="10 0 0 0" />
+                            <TextBlock FontSize="24" Text="Exchange" Margin="10 0 0 0" />
                         </StackPanel>
                     </ListBoxItem>
                 </ListBox>
