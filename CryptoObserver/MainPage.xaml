@@ -5,10 +5,55 @@
     xmlns:local="using:CryptoObserver"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    mc:Ignorable="d">
 
-    <Grid>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <RelativePanel>
+            <Button x:Name="HamburgerButton" RelativePanel.AlignLeftWithPanel="True"
+                    FontFamily="Segoe MDL2 Assets" FontSize="36"
+                    Background="{Binding ElementName=menu, Path=Background}"
+                    Content="&#xE700;" Click="HamburgerButton_Click"/>
+            <TextBlock Name="TitleTextBlock" RelativePanel.RightOf="HamburgerButton"
+                       FontSize="28" FontWeight="Bold" Margin="30 5 0 0" />
+        </RelativePanel>
 
+        <SplitView Name="mySplitView" Grid.Row="1" OpenPaneLength="200"
+                   DisplayMode="CompactOverlay" CompactPaneLength="56">
+            <SplitView.Pane>
+                <ListBox x:Name="menu" SelectionMode="Single" SelectionChanged="ListBox_SelectionChanged">
+                    <ListBoxItem Name="Home">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontSize="36" FontFamily="Segoe MDL2 Assets" Text="&#xE80F;" />
+                            <TextBlock FontSize="24" Text="Main" Margin="10 0 0 0" />
+                        </StackPanel>
+                    </ListBoxItem>
+                    <ListBoxItem Name="Details">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontSize="36" FontFamily="Segoe MDL2 Assets" Text="&#xE712;" />
+                            <TextBlock FontSize="24" Text="Description" Margin="10 0 0 0" />
+                        </StackPanel>
+                    </ListBoxItem>
+                    <ListBoxItem Name="Search">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontSize="36" FontFamily="Segoe MDL2 Assets" Text="&#xE721;" />
+                            <TextBlock FontSize="24" Text="Search" Margin="10 0 0 0" />
+                        </StackPanel>
+                    </ListBoxItem>
+                    <ListBoxItem Name="Converter">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontSize="36" FontFamily="Segoe MDL2 Assets" Text="&#xE8EF;" />
+                            <TextBlock FontSize="24" Text="Exchange calculator" Margin="10 0 0 0" />
+                        </StackPanel>
+                    </ListBoxItem>
+                </ListBox>
+            </SplitView.Pane>
+            <SplitView.Content>
+                <Frame Name="myFrame" />
+            </SplitView.Content>
+        </SplitView>
     </Grid>
 </Page>

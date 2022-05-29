@@ -25,6 +25,38 @@ namespace CryptoObserver
         public MainPage()
         {
             this.InitializeComponent();
+            myFrame.Navigate(typeof(Views.Home));
+            TitleTextBlock.Text = "Main";
+        }
+
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (Home.IsSelected)
+            {
+                myFrame.Navigate(typeof(Views.Home));
+                TitleTextBlock.Text = "Main";
+            }
+            else if (Details.IsSelected)
+            {
+                myFrame.Navigate(typeof(Views.Details));
+                TitleTextBlock.Text = "Details";
+            }
+            else if (Search.IsSelected)
+            {
+                myFrame.Navigate(typeof(Views.Search));
+                TitleTextBlock.Text = "Search";
+            }
+            else if (Converter.IsSelected)
+            {
+                myFrame.Navigate(typeof(Views.Converter));
+                TitleTextBlock.Text = "Converter";
+            }
+
+
+        }
+        private void HamburgerButton_Click(object sender, RoutedEventArgs e)
+        {
+            mySplitView.IsPaneOpen = !mySplitView.IsPaneOpen;
         }
     }
 }
