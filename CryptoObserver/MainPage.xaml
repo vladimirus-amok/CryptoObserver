@@ -12,6 +12,11 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
         <RelativePanel>
             <Button x:Name="HamburgerButton" RelativePanel.AlignLeftWithPanel="True"
                     FontFamily="Segoe MDL2 Assets" FontSize="36"
@@ -29,12 +34,6 @@
                         <StackPanel Orientation="Horizontal">
                             <TextBlock FontSize="36" FontFamily="Segoe MDL2 Assets" Text="&#xE80F;" />
                             <TextBlock FontSize="24" Text="Main" Margin="10 0 0 0" />
-                        </StackPanel>
-                    </ListBoxItem>
-                    <ListBoxItem Name="Details">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock FontSize="36" FontFamily="Segoe MDL2 Assets" Text="&#xE712;" />
-                            <TextBlock FontSize="24" Text="Description" Margin="10 0 0 0" />
                         </StackPanel>
                     </ListBoxItem>
                     <ListBoxItem Name="Search">

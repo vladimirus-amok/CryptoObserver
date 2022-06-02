@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CryptoObserver.Models;
+using CryptoObserver.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -24,7 +26,9 @@ namespace CryptoObserver.Views
     {
         public Home()
         {
+            CoinViewModel coinViewModel = new CoinViewModel();
             this.InitializeComponent();
         }
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CryptoObserver.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -35,11 +36,6 @@ namespace CryptoObserver
             {
                 myFrame.Navigate(typeof(Views.Home));
                 TitleTextBlock.Text = "Main";
-            }
-            else if (Details.IsSelected)
-            {
-                myFrame.Navigate(typeof(Views.Details));
-                TitleTextBlock.Text = "Details";
             }
             else if (Search.IsSelected)
             {

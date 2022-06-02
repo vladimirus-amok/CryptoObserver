@@ -5,45 +5,48 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Runtime.CompilerServices;
 
 namespace CryptoObserver.ViewModels
 {
     public class CoinViewModel
     {
         private ObservableCollection<Coin> coinsList;
-        public ObservableCollection<Coin> CoinsList { get { return this.coinsList; } }
+        private ObservableCollection<Coin> topTenCoinsList;
+        private Coin coinForDescribing;
+        
+        public ObservableCollection<Coin> CoinsList => coinsList;
+        public ObservableCollection<Coin> TopTenCoinsList => topTenCoinsList;
+        public Coin CoinForDescribing => coinForDescribing;
+
         public CoinViewModel()
         {
-            this.coinsList = new ObservableCollection<Coin>();
-
-            HttpClient httpClient=new HttpClient();
-            DataSource dataSource = new DataSource(httpClient);
-            dataSource.LoadCoinsList(ref this.coinsList);
+            coinsList = new ObservableCollection<Coin>();
+            topTenCoinsList = new ObservableCollection<Coin>();
+            using var httpClient = new HttpClient
+            {
+                Timeout = TimeSpan.FromSeconds(5),
+            };
+            DataSource dataSource = new(httpClient);
+            dataSource.LoadCoinsList(ref coinsList, ref topTenCoinsList);
         }
     }
 
     internal class DataSource
     {
         private readonly HttpClient _httpClient;
-
         public DataSource(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
 
-        public async Task<List<Coin>> GetCoinsListFromApiAsync(CancellationToken cancellationToken = default)
+        public List<Coin> GetCoinsListFromApi(CancellationToken cancellationToken = default)
         {
-            using var response = await _httpClient.GetAsync("http://api.coincap.io/v2/assets", cancellationToken);
-            var strResult = await response.Content.ReadAsStringAsync();
+            using var response = _httpClient.GetAsync("http://api.coincap.io/v2/assets", cancellationToken).Result;
+            var strResult = response.Content.ReadAsStringAsync().Result;
             JObject coinData = JObject.Parse(strResult);
-
             IList<JToken> results = coinData["data"].Children().ToList();
             List<Coin> coins = new();
-
             foreach (JToken res in results)
             {
                 Coin coin = res.ToObject<Coin>();
@@ -52,19 +55,45 @@ namespace CryptoObserver.ViewModels
             coins.OrderBy(x => x.Rank);
             return coins;
         }
-
-        public void GetCoinsList(ref ObservableCollection<Coin> coinsList)
+        public void GetCoinsList(ref ObservableCollection<Coin> coinsList, ref ObservableCollection<Coin> topTenCoinsList)
         {
-            var tempCoinList = GetCoinsListFromApiAsync();
-            foreach (var coin in tempCoinList.Result)
+            var tempCoinsList = GetCoinsListFromApi();
+
+            foreach (var coin in tempCoinsList)
             {
                 coinsList.Add(coin);
             }
+
+            while (tempCoinsList.Count>10)
+                tempCoinsList.RemoveAt(10);
+
+            foreach (var coin in tempCoinsList)
+            {
+                topTenCoinsList.Add(coin);
+            }
+
+
+        }
+        public void LoadCoinsList(ref ObservableCollection<Coin> coinsList, ref ObservableCollection<Coin> topTenCoinsList)
+        {
+            GetCoinsList(ref coinsList, ref topTenCoinsList);
+            //AddTestData(ref coinsList);
         }
 
-        public void LoadCoinsList(ref ObservableCollection<Coin> coinsList)
+        public static void AddTestData(ref ObservableCollection<Coin> coinsList)
         {
-            GetCoinsList(ref coinsList);
+            coinsList.Add(new Coin()
+            {
+                Name = "Bitoc",
+                Rank = 1,
+                Symbol = "BTC"
+            });
+            coinsList.Add(new Coin()
+            {
+                Name = "Ehtetium",
+                Rank = 2,
+                Symbol = "ETC"
+            });
         }
     }
 }
